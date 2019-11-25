@@ -6,6 +6,7 @@ package jframe.umeng.service;
 import java.util.Map;
 
 import jframe.core.plugin.annotation.Service;
+import org.json.JSONObject;
 
 /**
  * https://developer.umeng.com/docs/66632/detail/68343
@@ -24,6 +25,12 @@ public interface UmengService {
             throws Exception;
 
     void sendIOSUnicast(String groupId, String token, String alert, Integer badge, String sound, Map<String, String> custom)
+            throws Exception;
+
+    void sendIOSBroadcast(String groupId, String token, JSONObject alert, Integer badge, String sound, Map<String, String> custom)
+            throws Exception;
+
+    void sendIOSUnicast(String groupId, String token, JSONObject alert, Integer badge, String sound, Map<String, String> custom)
             throws Exception;
 
     void sendAndUnicast(String groupId, String token, String ticker, String title, String text, Map<String, String> custom)

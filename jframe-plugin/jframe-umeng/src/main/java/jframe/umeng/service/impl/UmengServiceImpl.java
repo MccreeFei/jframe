@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -108,6 +109,24 @@ public class UmengServiceImpl implements UmengService {
         sendUmengNotification(unicast, groupId);
     }
 
+    @Override
+    public void sendIOSUnicast(String groupId, String token, JSONObject alert, Integer badge, String sound, Map<String, String> custom) throws Exception {
+        IOSUnicast unicast =
+                new IOSUnicast(_config.getConf(groupId, UmengConfig.AppKey), _config.getConf(groupId, UmengConfig.AppMasterSecret));
+        unicast.setDeviceToken(token);
+        unicast.setAlert(alert);
+        badge = badge == null ? 0 : badge;
+        unicast.setBadge(badge);
+        sound = sound == null ? "default" : sound;
+        unicast.setSound(sound);
+        unicast.setTestMode();
+        if (custom != null) for (Map.Entry<String, String> e : custom.entrySet()) {
+            unicast.setCustomizedField(e.getKey(), e.getValue());
+        }
+
+        sendUmengNotification(unicast, groupId);
+    }
+
     /**
      * "ticker":"xx", // 必填，通知栏提示文字
      * "title":"xx", // 必填，通知标题
@@ -159,6 +178,23 @@ public class UmengServiceImpl implements UmengService {
     @Override
     public void sendIOSBroadcast(String groupId, String token, String alert, Integer badge, String sound, Map<String, String> custom)
             throws Exception {
+        IOSBroadcast broadcast =
+                new IOSBroadcast(_config.getConf(groupId, UmengConfig.AppKey), _config.getConf(groupId, UmengConfig.AppMasterSecret));
+        broadcast.setAlert(alert);
+        badge = badge == null ? 0 : badge;
+        broadcast.setBadge(badge);
+        sound = sound == null ? "default" : sound;
+        broadcast.setSound(sound);
+        broadcast.setTestMode();
+        if (custom != null) for (Map.Entry<String, String> e : custom.entrySet()) {
+            broadcast.setCustomizedField(e.getKey(), e.getValue());
+        }
+
+        sendUmengNotification(broadcast, groupId);
+    }
+
+    @Override
+    public void sendIOSBroadcast(String groupId, String token, JSONObject alert, Integer badge, String sound, Map<String, String> custom) throws Exception {
         IOSBroadcast broadcast =
                 new IOSBroadcast(_config.getConf(groupId, UmengConfig.AppKey), _config.getConf(groupId, UmengConfig.AppMasterSecret));
         broadcast.setAlert(alert);

@@ -3,6 +3,7 @@ package push;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import com.google.gson.JsonObject;
 import org.json.JSONObject;
 
 public abstract class IOSNotification extends UmengNotification {
@@ -71,6 +72,10 @@ public abstract class IOSNotification extends UmengNotification {
 	public void setAlert(String token) throws Exception {
     	setPredefinedKeyValue("alert", token);
     }
+
+	public void setAlert(JSONObject token) throws Exception {
+		setPredefinedKeyValue("alert", token);
+	}
 	
 	public void setBadge(Integer badge) throws Exception {
     	setPredefinedKeyValue("badge", badge);
